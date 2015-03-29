@@ -420,9 +420,18 @@ namespace rpi_omx
     static const VideoFromat VF_1280x720 = { 1280, 720, 30, VideoFromat::RATIO_16x9, true };
     static const VideoFromat VF_640x480 = { 640, 480, 30, VideoFromat::RATIO_4x3, true };
 
+    static const VideoFromat VF_RESIZED_640x480 = VF_640x480;
     static const VideoFromat VF_RESIZED_320x240 = { 320, 240, 30, VideoFromat::RATIO_4x3, true };
-    static const VideoFromat VF_RESIZED_420x270 = { 480, 270, 30, VideoFromat::RATIO_16x9, false };
-    //static const VideoFromat VF_RESIZED_240x135 = { 240, 135, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_256x192 = { 256, 192, 30, VideoFromat::RATIO_4x3, true };
+    static const VideoFromat VF_RESIZED_160x120 = { 160, 120, 30, VideoFromat::RATIO_4x3, true };
+    static const VideoFromat VF_RESIZED_128x96 = { 128, 96, 30, VideoFromat::RATIO_4x3, true };
+
+    static const VideoFromat VF_RESIZED_960x540 = { 960, 540, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_640x360 = { 640, 360, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_480x270 = { 480, 270, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_384x216 = { 384, 216, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_320x180 = { 320, 180, 30, VideoFromat::RATIO_16x9, false };
+    static const VideoFromat VF_RESIZED_240x135 = { 240, 135, 30, VideoFromat::RATIO_16x9, false };
 
     ///
     template <typename T>
@@ -1078,6 +1087,9 @@ namespace rpi_omx
             portDef->format.image.nFrameHeight = newHeight;
             portDef->format.image.eColorFormat = OMX_COLOR_FormatYUV420PackedPlanar;
 
+            portDef->format.image.nSliceHeight = 0;
+            portDef->format.image.nStride = 0;
+
             setPortDefinition(OPORT, portDef);
         }
 #if 0
@@ -1224,7 +1236,6 @@ int main(int argc, char **argv)
         // configuring camera
         {
             camera.setVideoFromat(VF_1280x960);
-            //camera.setVideoFromat(VF_640x480);
             //camera.setVideoFromat(VF_1920x1080);
             camera.setImageDefaults();
             camera.setImageFilter(OMX_ALL, OMX_ImageFilterNoise);
@@ -1238,9 +1249,18 @@ int main(int argc, char **argv)
 
         // configuring encoders
         {
-            VideoFromat vfResized = VF_640x480;
+            VideoFromat vfResized = VF_RESIZED_640x480;
             //VideoFromat vfResized = VF_RESIZED_320x240;
-            //VideoFromat vfResized = VF_RESIZED_420x270;
+            //VideoFromat vfResized = VF_RESIZED_256x192;
+            //VideoFromat vfResized = VF_RESIZED_160x120;
+            //VideoFromat vfResized = VF_RESIZED_128x96;
+
+            //VideoFromat vfResized = VF_RESIZED_960x540;
+            //VideoFromat vfResized = VF_RESIZED_640x360;
+            //VideoFromat vfResized = VF_RESIZED_480x270;
+            //VideoFromat vfResized = VF_RESIZED_384x216;
+            //VideoFromat vfResized = VF_RESIZED_320x180;
+            //VideoFromat vfResized = VF_RESIZED_240x135;
 
             Parameter<OMX_PARAM_PORTDEFINITIONTYPE> portDef;
             camera.getPortDefinition(Camera::OPORT_VIDEO, portDef);
